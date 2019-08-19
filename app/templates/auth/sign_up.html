@@ -1,0 +1,35 @@
+<!-- templates/signup.html -->
+{% extends "base.html" %}
+{% from "auth/macros_field_render.html" import render_field with context %}
+{% block content %}
+<div class="column is-4 is-offset-4">
+    <h3 class="title">Sign Up</h3>
+    <div class="box">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="notification is-danger">
+            {{ messages[0] }}. Go to <a href="{{ url_for('auth.login') }}">login page</a>.
+        </div>
+        {% endif %}
+        {% endwith %}
+        {% if form.errors %}
+        <div class="notification is-danger">
+            {% for field, error in form.errors.items() %}
+		    {% for e in error %}
+		    {{ e }}<br>
+		    {% endfor %}
+		    {% endfor %}
+        </div>
+        {% endif %}
+        <form method="POST" action="{{ url_for('auth.signup') }}">
+        	{{ form.csrf_token }}
+            {{ render_field(form.email,placeholder="Your Email Address",
+                                  autofocus="", class='is-large') }}
+            {{ render_field(form.name,placeholder="Your Name",
+                                  autofocus="", class='is-large') }}
+            {{ render_field(form.password, placeholder="Password",class='is-large') }}
+            <button class="button is-block is-info is-large is-fullwidth">Sign Up</button>
+        </form>
+    </div>
+</div>
+{% endblock %}
