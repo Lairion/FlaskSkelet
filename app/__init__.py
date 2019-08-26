@@ -5,6 +5,7 @@ import sys
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager 
+from flask_admin import Admin
 
 app = Flask(__name__)
 app.config.from_object('config.ConfigDevelop')
@@ -12,7 +13,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
-
+admin = Admin(app,name="test_admin",template_mode="bootstrap3")
 ########################
 # Configure Secret Key #
 ########################
@@ -58,11 +59,11 @@ from app.main_module.views import main as mainModule
 app.register_blueprint(mainModule)
 app.register_blueprint(usersModule)
 
+from app.users.admin import UserAdminView
+admin.add_view(UserAdminView(User, db.session))
 # Later on you'll import the other blueprints the same way:
 #from app.comments.views import mod as commentsModule
 #from app.posts.views import mod as postsModule
 # app.register_blueprint(commentsModule)
 # app.register_blueprint(postsModule)
 db.create_all()
-
-print(app.config['SQLALCHEMY_DATABASE_URI'])

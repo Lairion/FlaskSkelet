@@ -12,6 +12,7 @@ class ConfigBase(object):
     # SQLite for this example
     SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(BASE_DIR, 'app.db')
     DATABASE_CONNECT_OPTIONS = {}
+    FLASK_ADMIN_SWATCH = 'cerulean'
 
     # Application threads. A common general assumption is
     # using 2 per available processor cores - to handle
