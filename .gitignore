@@ -18,3 +18,5 @@ local/*
 
 include/
 include/*
+
+*.db
